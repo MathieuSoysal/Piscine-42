@@ -29,8 +29,3 @@ Makefile
 # GoogleTest files
 *.log
 *.xml
-
-# Cmake Generated files
-*.cmake
-*.ninja
-*.txt
