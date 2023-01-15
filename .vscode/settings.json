@@ -1,0 +1,30 @@
+{
+	"editor.tokenColorCustomizations": {
+		"textMateRules": [
+			{
+				"scope": "googletest.failed",
+				"settings": {
+					"foreground": "#f00"
+				}
+			},
+			{
+				"scope": "googletest.passed",
+				"settings": {
+					"foreground": "#0f0"
+				}
+			},
+			{
+				"scope": "googletest.run",
+				"settings": {
+					"foreground": "#0f0"
+				}
+			}
+		]
+	},
+	"[c]": {
+		"editor.defaultFormatter": "keyhr.42-c-format"
+	},
+	"gtest-adapter.debugConfig": [
+		"C++ Launch"
+	],
+}
