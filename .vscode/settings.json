@@ -27,4 +27,7 @@
 	"gtest-adapter.debugConfig": [
 		"C++ Launch"
 	],
+	"cmake.configureSettings": {
+		"gtest_build_samples": "ON"
+	}
 }

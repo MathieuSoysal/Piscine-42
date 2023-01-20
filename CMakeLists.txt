@@ -10,6 +10,6 @@ add_subdirectory(googletest) # add googletest subdirectory
 
 include_directories(googletest/include) # this is so we can #include <gtest/gtest.h>
 
-add_executable(test_return_one test_return_one.cpp) # add this executable
+add_executable(test_return_one test_return_one.cpp return_one.c) # add this executable
 
 target_link_libraries(test_return_one PRIVATE gtest) # link google test to this executable
