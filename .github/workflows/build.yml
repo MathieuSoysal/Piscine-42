@@ -46,6 +46,5 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.coverageReportPaths="${{ github.workspace }}/Testing/Testing.xml"
             -Dsonar.testExecutionReportPaths="${{ github.workspace }}/Testing/Testing.xml"
 
