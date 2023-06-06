@@ -18,3 +18,9 @@ target_link_libraries(test_return_one PRIVATE gtest) # link google test to this 
 
 include(GoogleTest)
 gtest_discover_tests(test_return_one) # discover tests for this executable
+
+# Generate test results in XML format
+set(CTEST_OUTPUT_ON_FAILURE TRUE)
+set(CTEST_XML_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Testing/")
+
+include(CTest)
