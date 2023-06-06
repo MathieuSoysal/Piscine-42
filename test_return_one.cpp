@@ -6,7 +6,7 @@ extern "C" {
 
 TEST(t_return_one, returns_1)
 {
-    EXPECT_EQ(1,return_one());  
+    GTEST_ASSERT_EQ(return_one(),1);  
 }
 
 int main(int argc, char **argv)

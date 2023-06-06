@@ -11,10 +11,13 @@ RUN if [ "${REINSTALL_CMAKE_VERSION_FROM_SOURCE}" != "none" ]; then \
     && rm -f /tmp/reinstall-cmake.sh
 
 # Add googletest and cmake 
-RUN apt-get update && sudo apt-get update && sudo apt-get install -y build-essential libgtest-dev
+RUN apt-get update && apt-get install -y build-essential libgtest-dev
 
 # Add norminette
-RUN apt-get update && sudo apt-get update && sudo apt-get install -y python3-pip python3-setuptools && python3 -m pip install --upgrade pip setuptools && pip3 install norminette
+RUN apt-get install -y python3-pip python3-setuptools && python3 -m pip install --upgrade pip setuptools && pip3 install norminette
+
+# Install ctest
+RUN apt-get install -y cmake
 
 # 42-formatter
 RUN pip install c_formatter_42
