@@ -38,8 +38,14 @@ set(CTEST_XML_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Testing/")
 
 include(CTest)
 
+# Coverage
 add_custom_target(coverage
                   COMMAND ${CMAKE_COMMAND} --build . --target test
                   COMMAND gcovr --root . --xml-pretty -o ${CMAKE_BINARY_DIR}/coverage.xml
                   DEPENDS test_return_one)
 
+# Mutation testing
+add_custom_target(mutation
+                  COMMAND mull-cxx -test-framework GoogleTest -mutators=all -ide-reporter-show-killed -output=mutants.sqlite3 ./test_return_one
+                  COMMAND cxx_diff -reporter=HTML -mutant-db=mutants.sqlite3 > mutation_report.html
+                  DEPENDS test_return_one)

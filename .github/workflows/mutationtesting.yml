@@ -1,0 +1,53 @@
+name: CI Mutation Testing
+
+on: [push]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake make gcc g++ lcov gcovr llvm-11 llvm-11-dev clang-11 libsqlite3-dev sqlite3
+
+    - name: Install Mull
+      run: |
+          git clone https://github.com/mull-project/mull.git
+          cd mull
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/llvm-11 -DCMAKE_INSTALL_PREFIX=../install
+          make -j
+          sudo make install
+
+    - name: Configure CMake
+      run: cmake -B ${{ github.workspace }}/build
+
+    - name: Build CMake
+      run: cmake --build ${{ github.workspace }}/build
+
+    - name: Test
+      run: cmake --build ${{ github.workspace }}/build --target test
+
+    - name: Coverage
+      run: cmake --build ${{ github.workspace }}/build --target coverage
+
+    - name: Mutation Testing
+      run: |
+          cd ${{ github.workspace }}/build
+          ../mull/install/bin/mull-cxx -test-framework GoogleTest -mutators=all -output=mutants.sqlite3 ./test_return_one
+
+    - name: Generate Mutation Report
+      run: |
+          sudo apt-get install -y python3 python3-pip
+          sudo pip3 install cxx_diff
+          cxx_diff -reporter=HTML -mutant-db=${{ github.workspace }}/build/mutants.sqlite3 > ${{ github.workspace }}/build/mutation_report.html
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ${{ github.workspace }}/build

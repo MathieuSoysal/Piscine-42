@@ -25,6 +25,10 @@ RUN pip install c_formatter_42
 # Install gcovr for code coverage
 RUN pip install gcovr
 
+
+# Prepare test environement
+# RUN cmake --no-warn-unused-cli -Dgtest_build_samples:STRING=ON -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc -DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++ -S/workspaces/Piscine-42 -B/workspaces/Piscine-42/build -G Ninja
+
 # [Optional] Uncomment this section to install additional vcpkg ports.
 # RUN su vscode -c "${VCPKG_ROOT}/vcpkg install <your-port-name-here>"
 
