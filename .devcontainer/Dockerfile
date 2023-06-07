@@ -22,6 +22,9 @@ RUN apt-get install -y cmake
 # 42-formatter
 RUN pip install c_formatter_42
 
+# Install gcovr for code coverage
+RUN pip install gcovr
+
 # [Optional] Uncomment this section to install additional vcpkg ports.
 # RUN su vscode -c "${VCPKG_ROOT}/vcpkg install <your-port-name-here>"
 

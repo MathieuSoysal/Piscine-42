@@ -5,46 +5,45 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
-
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     env:
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
-
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: recursive
-          fetch-depth: 0
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Set up Python 3.8 for gcovr
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install gcovr 5.0
+        run: |
+          pip install gcovr==5.0
 
       - name: Install sonar-scanner and build-wrapper
-        uses: SonarSource/sonarcloud-github-c-cpp@v1
+        uses: SonarSource/sonarcloud-github-action@v1
 
       - name: Run build-wrapper
         run: |
           mkdir build
           cmake -S . -B build
-          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/
 
-      - name: Run Tests and Collect Results
+      - name: Run tests and generate coverage
         run: |
-          # Build the project
-          cmake --build build
+          cmake --build build/ --target coverage
 
-          # Run the tests and collect results
-          cmake --build build --target test
-
-          # Collect the test results
-          find build/Testing -name "*.xml" -type f -exec cp {} "${{ github.workspace }}/Testing" \;
-
-      - name: Publish Test Results to SonarCloud
-        uses: sonarsource/sonarcloud-github-action@master
+      - name: Run sonar-scanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.testExecutionReportPaths="${{ github.workspace }}/Testing/*.xml"
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }} # Put the name of your token here
+        run: |
+          sonar-scanner \
+            -Dsonar.cfamily.build-wrapper-output=${{ env.BUILD_WRAPPER_OUT_DIR }} \
+            -Dsonar.coverageReportPaths=${{ github.workspace }}/build/coverage.xml
 
