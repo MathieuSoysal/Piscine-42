@@ -42,9 +42,6 @@ jobs:
     - name: Test
       run: cmake --build ${{ github.workspace }}/build --target test
 
-    - name: Coverage
-      run: cmake --build ${{ github.workspace }}/build --target coverage
-
     - name: Mutation Testing
       run: |
           cd ${{ github.workspace }}/build
