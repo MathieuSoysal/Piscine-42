@@ -1,7 +1,7 @@
 // test_return_one.cpp
 #include "gtest/gtest.h"
 extern "C" {
-#include "return_one.h"
+#include "../main/return_one.h"
 }
 
 TEST(t_return_one, returns_1)
