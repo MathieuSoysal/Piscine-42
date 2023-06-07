@@ -37,7 +37,7 @@ jobs:
           cmake --build build --target test
 
           # Collect the test results
-          cp -r build/Testing "${{ github.workspace }}/Testing"
+          cp -r build/Testing/**/*.xml "${{ github.workspace }}/Testing"
 
       - name: Publish Test Results to SonarCloud
         uses: sonarsource/sonarcloud-github-action@master
@@ -46,5 +46,5 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.testExecutionReportPaths="${{ github.workspace }}/Testing/**/*.xml"
+            -Dsonar.testExecutionReportPaths="${{ github.workspace }}/Testing/*.xml"
 
