@@ -25,13 +25,9 @@ jobs:
 
     - name: Install Mull
       run: |
-          git clone --recurse-submodules https://github.com/mull-project/mull.git
-          cd mull
-          mkdir build
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/llvm-11 -DLLVM_ROOT=/usr/lib/llvm-11 -DCMAKE_INSTALL_PREFIX=../install
-          make -j
-          sudo make install
+          wget https://github.com/mull-project/mull/releases/download/0.21.0/Mull-12-0.21.0-LLVM-12.0-ubuntu-20.04.deb
+          sudo dpkg -i Mull-12-0.21.0-LLVM-12.0-ubuntu-20.04.deb
+
 
     - name: Configure CMake
       run: cmake -B ${{ github.workspace }}/build
