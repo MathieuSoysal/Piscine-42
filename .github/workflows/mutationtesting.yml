@@ -41,7 +41,7 @@ jobs:
     - name: Mutation Testing
       run: |
           cd ${{ github.workspace }}/build
-          ../mull/install/bin/mull-cxx -test-framework GoogleTest -mutators=all -output=mutants.sqlite3 ./test_return_one
+          mull-cxx -test-framework GoogleTest -mutators=all -output=mutants.sqlite3 ./test_return_one
 
     - name: Generate Mutation Report
       run: |
