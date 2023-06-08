@@ -17,7 +17,7 @@ jobs:
             wget https://apt.llvm.org/llvm.sh
             chmod +x llvm.sh
             sudo ./llvm.sh 11
-            sudo apt-get install -y cmake make libsqlite3-dev sqlite3
+            sudo apt-get install -y cmake make libsqlite3-dev sqlite3 libclang-11-dev
 
     - name: Install dependencies
       run: |
