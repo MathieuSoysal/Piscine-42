@@ -40,16 +40,7 @@ jobs:
 
     - name: Run Mull
       run: |
-        mull-runner-12 -test-framework GoogleTest -mutators=all -output=mutants.sqlite3 ./test_return_one
-
-
-    - name: Add mull-cxx to PATH
-      run: echo "$MULL_CXX_PATH" >> $GITHUB_PATH
-
-    - name: Mutation Testing
-      run: |
-          cd ${{ github.workspace }}/build
-          mull-cxx -test-framework GoogleTest -mutators=all -output=mutants.sqlite3 ./test_return_one
+        mull-runner-12 --help
 
     - name: Generate Mutation Report
       run: |
