@@ -38,6 +38,18 @@ jobs:
     - name: Test
       run: cmake --build ${{ github.workspace }}/build --target test
 
+    - name: Locate mull-cxx
+      run: |
+        sudo dpkg-query -L mull | grep mull-cxx
+
+    - name: Locate mull-cxx
+      run: |
+        MULL_CXX_PATH=$(dirname $(sudo dpkg-query -L mull | grep mull-cxx))
+        echo "MULL_CXX_PATH=$MULL_CXX_PATH" >> $GITHUB_ENV
+
+    - name: Add mull-cxx to PATH
+      run: echo "$MULL_CXX_PATH" >> $GITHUB_PATH
+
     - name: Mutation Testing
       run: |
           cd ${{ github.workspace }}/build
