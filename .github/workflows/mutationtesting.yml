@@ -38,14 +38,15 @@ jobs:
     - name: Test
       run: cmake --build ${{ github.workspace }}/build --target test
 
-    - name: Locate mull-cxx
+    - name: Add mull-cxx to PATH
       run: |
-        sudo dpkg-query -L mull | grep mull-cxx
+        MULL_CXX_PATH=$(dirname $(dpkg-deb --contents Mull-12-0.21.0-LLVM-12.0-ubuntu-20.04.deb | grep mull-cxx | awk '{print $6}'))
+        echo "$MULL_CXX_PATH" >> $GITHUB_PATH
 
-    - name: Locate mull-cxx
+    - name: Mutation Testing
       run: |
-        MULL_CXX_PATH=$(dirname $(sudo dpkg-query -L mull | grep mull-cxx))
-        echo "MULL_CXX_PATH=$MULL_CXX_PATH" >> $GITHUB_ENV
+          cd ${{ github.workspace }}/build
+          mull-cxx -test-framework GoogleTest -mutators=all -output=mutants.sqlite3 ./test_return_one
 
     - name: Add mull-cxx to PATH
       run: echo "$MULL_CXX_PATH" >> $GITHUB_PATH
