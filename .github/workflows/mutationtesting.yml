@@ -40,10 +40,4 @@ jobs:
 
     - name: Run Mull
       run: |
-        mull-runner-12 --test-program=./test_return_one --reporters=SQLite --report-name=mutants.sqlite3
-
-    - name: Generate Mutation Report
-      run: |
-          sudo apt-get install -y python3 python3-pip
-          sudo pip3 install cxx_diff
-          cxx_diff -reporter=HTML -mutant-db=${{ github.workspace }}/build/mutants.sqlite3 > ${{ github.workspace }}/build/mutation_report.html
+        mull-runner-12 -reporters=IDE -reporters=GithubAnnotations ./test-return-one
