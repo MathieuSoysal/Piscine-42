@@ -40,7 +40,7 @@ jobs:
 
     - name: Run Mull
       run: |
-        mull-cxx --mutators=cxx_arithmetic,cxx_relational,cxx_logical,cxx_bitwise,cxx_assignment,cxx_unary,cxx_conditional,cxx_switch,cxx_remove_void,cxx_replace_call,cxx_remove_negation,cxx_add_void,cxx_add_mutations,cxx_add_random --reporters=IDE ${{ github.workspace }}/build/mutants.sqlite3 --compilers=clang --linker=clang
+        mull-runner-12 --test-program=./test_return_one --reporters=SQLite --report-name=mutants.sqlite3
 
     - name: Generate Mutation Report
       run: |
