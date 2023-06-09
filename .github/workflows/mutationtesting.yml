@@ -40,16 +40,10 @@ jobs:
 
     - name: Run Mull
       run: |
-        mull-runner-12 --help
+        mull-cxx --mutators=cxx_arithmetic,cxx_relational,cxx_logical,cxx_bitwise,cxx_assignment,cxx_unary,cxx_conditional,cxx_switch,cxx_remove_void,cxx_replace_call,cxx_remove_negation,cxx_add_void,cxx_add_mutations,cxx_add_random --reporters=IDE ${{ github.workspace }}/build/mutants.sqlite3 --compilers=clang --linker=clang
 
     - name: Generate Mutation Report
       run: |
           sudo apt-get install -y python3 python3-pip
           sudo pip3 install cxx_diff
           cxx_diff -reporter=HTML -mutant-db=${{ github.workspace }}/build/mutants.sqlite3 > ${{ github.workspace }}/build/mutation_report.html
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ${{ github.workspace }}/build
