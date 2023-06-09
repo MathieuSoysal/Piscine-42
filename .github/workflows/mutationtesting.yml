@@ -40,4 +40,6 @@ jobs:
 
     - name: Run Mull
       run: |
-        mull-runner-12 -reporters=IDE -reporters=GithubAnnotations ./test_return_one
+        cd ${{ github.workspace }}/build
+        mull-runner-12 --test-program=./test_return_one --reporters=IDE,GithubAnnotations
+
